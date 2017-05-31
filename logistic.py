@@ -11,7 +11,7 @@ def loadData(direction):
     trainfileList = listdir(direction)
     # 計算出trainfileList長度
     m = len(trainfileList)
-    # 新增一個data矩陣 zeros為Numpy內的函數，用途為創建一個元素均為0的組數 大小為m*1024大小的訓練矩陣
+    # 新增一個data矩陣 zeros為Numpy內的函式，用途為創建一個元素均為0的組數 大小為m*1024大小的訓練矩陣
     dataArray = zeros((m, 1024))
     # 新增一個label矩陣 大小為m*1的類別向量
     labelArray = zeros((m, 1))
@@ -31,7 +31,7 @@ def loadData(direction):
         filename0 = filename.split('.')[0]
         label = filename0.split('_')[0]
         # 儲存類別
-        labelArray[i] = int(label)  # 存储类别
+        labelArray[i] = int(label)
     return dataArray, labelArray
 
 
@@ -40,7 +40,7 @@ def sigmoid(inX):
 
 
 # alpha:步長，maxCycles:迭代次數，可以调整
-# 梯度下降函數
+# 梯度下降函式
 def gradAscent(dataArray, labelArray, alpha, maxCycles):
     # size=m*n mat為numpy方法，把輸入解釋為矩陣
     dataMat = mat(dataArray)
@@ -57,7 +57,7 @@ def gradAscent(dataArray, labelArray, alpha, maxCycles):
     return weigh
 
 
-# 分類函數，根據參數weigh對測試樣本進行預測，同時計算錯誤率
+# 分類函式，根據參數weigh對測試樣本進行預測，同時計算錯誤率
 def classfy(testdir, weigh):
     dataArray, labelArray = loadData(testdir)
     dataMat = mat(dataArray)
@@ -79,11 +79,11 @@ def classfy(testdir, weigh):
     print 'error rate is:', '%.4f' % (error / m)
 
 
-#整合呼叫上述函數，alpha預設為0.07,maxCycles預設為10
+#整合呼叫上述函式，alpha預設為0.07,maxCycles預設為10
 def digitRecognition(trainDir, testDir, alpha=0.07, maxCycles=10):
     #data,label為傳入loadData的值
     data, label = loadData(trainDir)
-    #weigh為梯度下降函數的回傳值
+    #weigh為梯度下降函式的回傳值
     weigh = gradAscent(data, label, alpha, maxCycles)
     #根據參數weigh對測試樣本進行預測
     classfy(testDir, weigh)
