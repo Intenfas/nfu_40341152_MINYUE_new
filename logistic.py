@@ -79,13 +79,16 @@ def classfy(testdir, weigh):
     print 'error rate is:', '%.4f' % (error / m)
 
 
-# 整合上面函數
+#整合呼叫上述函數，alpha預設為0.07,maxCycles預設為10
 def digitRecognition(trainDir, testDir, alpha=0.07, maxCycles=10):
+    #data,label為傳入loadData的值
     data, label = loadData(trainDir)
+    #weigh為梯度下降函數的回傳值
     weigh = gradAscent(data, label, alpha, maxCycles)
+    #根據參數weigh對測試樣本進行預測
     classfy(testDir, weigh)
 
-
+#執行
 digitRecognition('train', 'test', 0.01, 50)
 
 
