@@ -89,6 +89,7 @@ def read_data():
     #預測目標
     #y為目標值
     y = dataset_train["success"]
+    #fillna為若有N/A值補0
     x = x.fillna(0)
     #LabelEncoder`是一个可以用来将标签规范化的工具类，它可以将标签的编码值范围限定在[0,n_classes-1]
     #通过fit_transform函数计算各个词语出现的次数
@@ -107,14 +108,14 @@ if __name__ == '__main__':
     model_save_file = None
     model_save = {}
 
-    test_classifiers = ['NB', 'KNN', 'LR', 'RF', 'DT','GBDT', 'SVM']
-    classifiers = {'NB': naive_bayes_classifier, #單純貝式
-                   'KNN': knn_classifier, #臨邊分析
-                   'LR': logistic_regression_classifier, #邏輯回歸
-                   'RF': random_forest_classifier, #隨機森林
-                   'DT': decision_tree_classifier, #決策樹
-                   'GBDT': gradient_boosting_classifier, #梯度分類法
-                   'SVM': svm_classifier #支持向量機
+    test_classifiers = ['單純貝氏', '臨邊分析', '邏輯回歸', '隨機森林', '梯度分類法', '支持向量機']
+    classifiers = {'單純貝氏': naive_bayes_classifier, #單純貝式
+                   '臨邊分析': knn_classifier, #臨邊分析
+                   '邏輯回歸': logistic_regression_classifier, #邏輯回歸
+                   '隨機森林': random_forest_classifier, #隨機森林
+                   '決策樹': decision_tree_classifier, #決策樹
+                   '梯度分類法': gradient_boosting_classifier, #梯度分類法
+                   '支持向量機': svm_classifier #支持向量機
                    }
 
     print 'reading training and testing data...'
@@ -127,19 +128,18 @@ if __name__ == '__main__':
     print('#training data: %d, #testing_data: %d, dimension: %d' % (num_train, num_test, num_feat))
     for classifier in test_classifiers:
         print('******************* %s ********************' % classifier)
-        #start_time = time.time()  ##抓取起始時間
-        #model = classifiers[classifier](train_x, train_y)
-        #print('training took %fs!' % (time.time() - start_time))  ##計算訓練時間
-        #predict = model.predict(test_x)
-
-        #accuracy = metrics.accuracy_score(test_y, predict)
-        #print('accuracy: %.2f%%' % (100 * accuracy))
-        #print('total took %fs!' % (time.time() - start_time))
-
+       # start_time = time.time()  ##抓取起始時間
+       # model = classifiers[classifier](train_x, train_y)
+       # print('training took %fs!' % (time.time() - start_time))  ##計算訓練時間
+       # predict = model.predict(test_x)
+       #
+       # accuracy = metrics.accuracy_score(test_y, predict)
+       # print('accuracy: %.2f%%' % (100 * accuracy))
+       # print('total took %fs!' % (time.time() - start_time))
 
         start_time = time.time()
         model = classifiers[classifier](train_x, train_y)
-        print 'training took %fs!' % (time.time() - start_time)
+        print '訓練結束時間：  %fs!' % (time.time() - start_time)
         predict = model.predict(test_x)
         if model_save_file != None:
             model_save[classifier] = model
@@ -148,4 +148,5 @@ if __name__ == '__main__':
             recall = metrics.recall_score(test_y, predict)
             print 'precision: %.2f%%, recall: %.2f%%' % (100 * precision, 100 * recall)
         accuracy = metrics.accuracy_score(test_y, predict)
-        print 'accuracy: %.2f%%' % (100 * accuracy)
+        print '精準度: %.2f%%' % (100 * accuracy)
+        print('執行結束時間：  %fs!' % (time.time() - start_time))
